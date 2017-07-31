@@ -1,0 +1,143 @@
+<?php
+
+/**
+ * @file
+ * Look module.
+ */
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * The field holding theme name.
+ */
+const LOOK_THEME_FIELD = 'field_look_theme';
+
+/**
+ * The field holding look paths.
+ */
+const LOOK_PATH_FIELD = 'field_look_path';
+
+/**
+ * Implements hook_help().
+ */
+function look_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'entity.look.collection':
+      $output = '<p>' . t('Table contains looks grouped under parent looks. You can reorganize the looks using their drag-and-drop handles.') . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function look_preprocess_html(&$variables) {
+
+  $look = \Drupal::service('look.config')->get();
+
+  if (empty($look)) {
+    return;
+  }
+
+  $variables['#look'] = $look;
+
+  $classes = [
+    'look',
+    'look--' . $look['name'],
+  ];
+  foreach ($classes as $class) {
+    $variables['attributes']['class'][] = Html::getClass($class);
+  }
+
+  // Get mappings for specific theme.
+  $look_config = \Drupal::config('look.settings');
+  $theme = \Drupal::service('theme.manager')->getActiveTheme()->getName();
+  $mappings = $look_config->get('mapping.' . $theme);
+
+  if (empty($mappings)) {
+    return;
+  }
+
+  // Initialize modifiers service.
+  /** @var \Drupal\modifiers\Modifiers $modifiers */
+  $modifiers = \Drupal::service('modifiers');
+
+  $modifications = [];
+
+  foreach ($mappings as $name => $mapping) {
+    $namespace = $modifiers->getShortField($name);
+
+    if (isset($look['config'][$namespace])) {
+      // Fill current namespace modifications.
+      $modifiers->process($modifications, $look['config'][$namespace], $mapping['selector']);
+    }
+  }
+
+  if (!empty($modifications)) {
+    $modifiers->apply($modifications, $variables, 'attributes', 'look-' . $look['id']);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function look_entity_update(EntityInterface $entity) {
+
+  if ($entity->getEntityTypeId() === 'look') {
+
+    Cache::invalidateTags(['look:' . $entity->id()]);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function look_form_look_add_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  _look_form_field_look_theme_alter($form);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function look_form_look_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  _look_form_field_look_theme_alter($form);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function look_form_block_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  if (isset($form['visibility']['look'])) {
+    $form['visibility']['look']['#attached']['library'][] = 'look/block-settings';
+  }
+}
+
+/**
+ * Convert field_look_theme widget to select with all available themes.
+ */
+function _look_form_field_look_theme_alter(&$form) {
+
+  if (!empty($form[LOOK_THEME_FIELD])) {
+    $themes = \Drupal::service('theme_handler')->listInfo();
+    $options = [
+      '' => t('- None -'),
+    ];
+    foreach ($themes as $key => $theme) {
+      if (empty($theme->info['hidden'])) {
+        $options[$key] = $theme->info['name'];
+      }
+    }
+    $element = &$form[LOOK_THEME_FIELD]['widget'][0]['value'];
+    $element['#type'] = 'select';
+    $element['#options'] = $options;
+    $element['#default_value'] = [$element['#default_value']];
+    unset($element['#size']);
+  }
+}

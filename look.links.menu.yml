@@ -1,0 +1,38 @@
+entity.look.collection:
+  title: 'Looks'
+  description: 'List Look entities'
+  route_name: entity.look.collection
+  parent: system.admin_structure
+
+entity.look.add_form:
+  title: 'Add Look'
+  description: 'Create Look entity'
+  route_name: entity.look.add_form
+  parent: entity.look.collection
+
+entity.look.field_ui_fields:
+  title: 'Manage fields'
+  description: 'Manage fields of Look entity'
+  route_name: entity.look.field_ui_fields
+  parent: entity.look.collection
+  weight: 10
+
+entity.entity_form_display.look.default:
+  title: 'Manage form display'
+  description: 'Manage form display of Look entity'
+  route_name: entity.entity_form_display.look.default
+  parent: entity.look.collection
+  weight: 20
+
+entity.entity_view_display.look.default:
+  title: 'Manage display'
+  description: 'Manage display of Look entity'
+  route_name: entity.entity_view_display.look.default
+  parent: entity.look.collection
+  weight: 30
+
+look.settings:
+  title: 'Look'
+  description: 'Configure Look settings'
+  route_name: look.settings
+  parent: system.admin_config_ui

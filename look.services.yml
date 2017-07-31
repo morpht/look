@@ -1,0 +1,16 @@
+services:
+  look.config:
+    class: \Drupal\look\LookConfig
+    arguments: ['@database', '@config.factory', '@cache.default', '@request_stack', '@router.admin_context', '@plugin.manager.condition', '@entity_type.manager', '@modifiers']
+
+  look.theme.negotiator:
+    class: \Drupal\look\Theme\LookThemeNegotiator
+    arguments: ['@look.config']
+    tags:
+      - { name: theme_negotiator, priority: 1000 }
+
+  cache_context.look:
+    class: \Drupal\look\Cache\Context\LookCacheContext
+    arguments: ['@look.config']
+    tags:
+      - { name: cache.context }

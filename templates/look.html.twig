@@ -1,0 +1,22 @@
+{#
+/**
+ * @file look.html.twig
+ * Default theme implementation to present Look data.
+ *
+ * This template is used when viewing Look pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_look()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('look') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

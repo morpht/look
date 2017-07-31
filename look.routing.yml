@@ -1,0 +1,29 @@
+entity.look.collection:
+  path: '/admin/structure/look'
+  defaults:
+    _form: '\Drupal\look\Form\LookCollectionForm'
+    _title: 'Look entities'
+  requirements:
+    _permission: 'access look overview'
+  options:
+    _admin_route: TRUE
+
+look.settings:
+  path: '/admin/config/user-interface/look'
+  defaults:
+    _form: '\Drupal\look\Form\SettingsForm'
+    _title: 'Look settings'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE
+
+look.settings_theme:
+  path: '/admin/config/user-interface/look/{theme}'
+  defaults:
+    _form: '\Drupal\look\Form\SettingsForm'
+    _title_callback: '\Drupal\look\Form\SettingsForm::getFormTitle'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE

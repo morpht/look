@@ -1,0 +1,33 @@
+add look entities:
+  title: 'Create new Look entities'
+
+administer look entities:
+  title: 'Administer Look entities'
+  description: 'Allow to access the administration form to configure Look entities.'
+  restrict access: true
+
+delete look entities:
+  title: 'Delete Look entities'
+
+edit look entities:
+  title: 'Edit Look entities'
+
+access look overview:
+  title: 'Access the Look overview page'
+
+view published look entities:
+  title: 'View published Look entities'
+
+view unpublished look entities:
+  title: 'View unpublished Look entities'
+
+view all look revisions:
+  title: 'View all Look revisions'
+
+revert all look revisions:
+  title: 'Revert all Look revisions'
+  description: 'Role requires permission <em>view Look revisions</em> and <em>edit rights</em> for look entities in question or <em>administer look entities</em>.'
+
+delete all look revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Look revisions</em> and <em>delete rights</em> for look entities in question or <em>administer look entities</em>.'

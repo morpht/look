@@ -1,0 +1,6 @@
+block-settings:
+  js:
+    js/block-settings.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal

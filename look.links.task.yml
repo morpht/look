@@ -1,0 +1,37 @@
+entity.look.collection:
+  title: 'Looks'
+  route_name: entity.look.collection
+  base_route: entity.look.collection
+
+entity.look.canonical:
+  title: 'View'
+  route_name: entity.look.canonical
+  base_route: entity.look.canonical
+
+entity.look.edit_form:
+  title: 'Edit'
+  route_name: entity.look.edit_form
+  base_route: entity.look.canonical
+
+entity.look.delete_form:
+  title: 'Delete'
+  route_name: entity.look.delete_form
+  base_route: entity.look.canonical
+  weight: 10
+
+look.settings:
+  title: 'Global settings'
+  route_name: look.settings
+  base_route: look.settings
+  weight: -10
+
+look.settings_mapping:
+  title: 'Mappings'
+  route_name: look.settings_theme
+  base_route: look.settings
+  class: \Drupal\look\Plugin\Menu\ThemeDefaultTab
+
+look.settings_theme:
+  route_name: look.settings_theme
+  parent_id: look.settings_mapping
+  deriver: \Drupal\look\Plugin\Derivative\ThemeLocalTask
