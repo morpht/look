@@ -124,7 +124,6 @@ class LookSwitcher extends BlockBase implements ContainerFactoryPluginInterface 
 
     // Get current url with params.
     $current_path = $this->request->getRequestUri();
-    $current_url = Url::fromUserInput($current_path);
 
     // Get looks.
     $query = $this->connection->select('look_field_data', 'l')
