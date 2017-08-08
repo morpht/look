@@ -141,6 +141,8 @@ class LookSwitcher extends BlockBase implements ContainerFactoryPluginInterface 
       if (in_array($id, $exclude)) {
         continue;
       }
+      // Build URL.
+      $current_url = Url::fromUserInput($current_path);
       // Remove existing 'look' param if present.
       $options = $current_url->getOptions();
       $options = UrlHelper::filterQueryParameters($options, ['query[look]']);
