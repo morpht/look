@@ -20,6 +20,16 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class LookConfig {
 
   /**
+   * The field holding theme name.
+   */
+  const THEME_FIELD = 'field_look_theme';
+
+  /**
+   * The field holding look paths.
+   */
+  const PATH_FIELD = 'field_look_path';
+
+  /**
    * The database connection.
    *
    * @var \Drupal\Core\Database\Connection
@@ -235,11 +245,11 @@ class LookConfig {
   private function getLookIdFromPath() {
 
     if ($this->connection->schema()
-      ->tableExists('look__' . LOOK_PATH_FIELD)
+      ->tableExists('look__' . $this::PATH_FIELD)
     ) {
-      $query = $this->connection->select('look__' . LOOK_PATH_FIELD, 'l');
-      $query->fields('l', ['entity_id', LOOK_PATH_FIELD . '_value'])
-        ->condition('l.' . LOOK_PATH_FIELD . '_value', '', '!=');
+      $query = $this->connection->select('look__' . $this::PATH_FIELD, 'l');
+      $query->fields('l', ['entity_id', $this::PATH_FIELD . '_value'])
+        ->condition('l.' . $this::PATH_FIELD . '_value', '', '!=');
       $paths = $query->execute()->fetchAllKeyed();
 
       if (!empty($paths)) {

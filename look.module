@@ -10,16 +10,7 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-
-/**
- * The field holding theme name.
- */
-const LOOK_THEME_FIELD = 'field_look_theme';
-
-/**
- * The field holding look paths.
- */
-const LOOK_PATH_FIELD = 'field_look_path';
+use Drupal\look\LookConfig;
 
 /**
  * Implements hook_help().
@@ -124,7 +115,7 @@ function look_form_block_form_alter(&$form, FormStateInterface $form_state, $for
  */
 function _look_form_field_look_theme_alter(&$form) {
 
-  if (!empty($form[LOOK_THEME_FIELD])) {
+  if (!empty($form[LookConfig::THEME_FIELD])) {
     $themes = \Drupal::service('theme_handler')->listInfo();
     $options = [
       '' => t('- None -'),
@@ -134,7 +125,7 @@ function _look_form_field_look_theme_alter(&$form) {
         $options[$key] = $theme->info['name'];
       }
     }
-    $element = &$form[LOOK_THEME_FIELD]['widget'][0]['value'];
+    $element = &$form[LookConfig::THEME_FIELD]['widget'][0]['value'];
     $element['#type'] = 'select';
     $element['#options'] = $options;
     $element['#default_value'] = [$element['#default_value']];

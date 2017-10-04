@@ -110,19 +110,19 @@ class SettingsForm extends ConfigFormBase {
 
       $form['default'] = [
         '#type' => 'select',
-        '#title' => t('Default look'),
-        '#options' => ['' => t('- None -')] + $result,
+        '#title' => $this->t('Default look'),
+        '#options' => ['' => $this->t('- None -')] + $result,
         '#default_value' => $config->get('default'),
-        '#description' => t('Select the default look to be applied.'),
+        '#description' => $this->t('Select the default look to be applied.'),
         '#required' => FALSE,
       ];
 
       $form['default_admin'] = [
         '#type' => 'select',
-        '#title' => t('Default administration look'),
-        '#options' => ['' => t('- None -')] + $result,
+        '#title' => $this->t('Default administration look'),
+        '#options' => ['' => $this->t('- None -')] + $result,
         '#default_value' => $config->get('default_admin'),
-        '#description' => t('Select the default look to be applied for administration pages.'),
+        '#description' => $this->t('Select the default look to be applied for administration pages.'),
         '#required' => FALSE,
       ];
     }
@@ -136,10 +136,10 @@ class SettingsForm extends ConfigFormBase {
       $form['mapping'] = [
         '#type' => 'table',
         '#header' => [
-          t('Label'),
-          t('Machine name'),
-          t('Selector'),
-          t('Weight'),
+          $this->t('Label'),
+          $this->t('Machine name'),
+          $this->t('Selector'),
+          $this->t('Weight'),
         ],
         '#tabledrag' => [
           [
@@ -193,13 +193,13 @@ class SettingsForm extends ConfigFormBase {
             ],
             'selector' => [
               '#type' => 'textfield',
-              '#title' => t('Selector for @title', ['@title' => $label]),
+              '#title' => $this->t('Selector for @title', ['@title' => $label]),
               '#title_display' => 'invisible',
               '#default_value' => $selector,
             ],
             'weight' => [
               '#type' => 'weight',
-              '#title' => t('Weight for @title', ['@title' => $label]),
+              '#title' => $this->t('Weight for @title', ['@title' => $label]),
               '#title_display' => 'invisible',
               '#default_value' => $weight,
               '#attributes' => ['class' => ['mapping-order-weight']],
