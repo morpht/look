@@ -1,0 +1,14 @@
+{
+  "name": "drupal/look",
+  "description": "Provides Look entity management for usage with Modifiers.",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/look",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/look",
+    "source": "https://github.com/morpht/look"
+  },
+  "require": {
+    "drupal/modifiers": "~1.0"
+  }
+}
