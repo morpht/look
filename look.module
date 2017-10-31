@@ -28,6 +28,9 @@ function look_help($route_name, RouteMatchInterface $route_match) {
  */
 function look_preprocess_html(&$variables) {
 
+  // Add look config as cache context.
+  $variables['#cache']['contexts'][] = 'look';
+
   $look = \Drupal::service('look.config')->get();
 
   if (empty($look)) {
