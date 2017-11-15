@@ -5,4 +5,4 @@ core: 8.x
 package: User interface
 configure: look.settings
 dependencies:
-  - modifiers:modifiers
+  - modifiers:modifiers (>=8.x-1.0-alpha2)

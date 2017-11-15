@@ -72,7 +72,7 @@ function look_preprocess_html(&$variables) {
   }
 
   if (!empty($modifications)) {
-    $modifiers->apply($modifications, $variables, 'attributes', 'look-' . $look['id']);
+    $modifiers->apply($modifications, $variables, 'look-' . $look['id']);
   }
 }
 
