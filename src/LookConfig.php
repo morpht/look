@@ -145,29 +145,26 @@ class LookConfig {
    */
   private function getLookId() {
 
-    $look_id = $this->getLookIdFromUrl();
-
-    if (empty($look_id)) {
-      $look_id = $this->getLookIdFromPost();
-
-      if (empty($look_id)) {
-        $look_id = $this->getLookIdFromCookie();
-
-        if (empty($look_id)) {
-          $look_id = $this->getLookIdFromEntity();
-
-          if (empty($look_id)) {
-            $look_id = $this->getLookIdFromPath();
-
-            if (empty($look_id)) {
-              $look_id = $this->getDefaultLookId();
-            }
-          }
-        }
-      }
+    if ($look_id = $this->getLookIdFromUrl()) {
+      return $look_id;
+    }
+    if ($look_id = $this->getLookIdFromPost()) {
+      return $look_id;
+    }
+    if ($look_id = $this->getLookIdFromCookie()) {
+      return $look_id;
+    }
+    if ($look_id = $this->getLookIdFromEntity()) {
+      return $look_id;
+    }
+    if ($look_id = $this->getLookIdFromPath()) {
+      return $look_id;
+    }
+    if ($look_id = $this->getDefaultLookId()) {
+      return $look_id;
     }
 
-    return $look_id;
+    return NULL;
   }
 
   /**
