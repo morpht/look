@@ -313,6 +313,7 @@ class LookConfig {
    */
   private function getConfig($look_id) {
 
+    $config = [];
     $cid = 'look:' . $look_id;
 
     if ($cache = $this->cache->get($cid)) {
@@ -323,18 +324,20 @@ class LookConfig {
       $storage = $this->entityTypeManager->getStorage('look');
       $parents = $storage->loadParents($look_id);
 
-      $config = [
-        'id' => $look_id,
-        'name' => $parents[$look_id]->getName(),
-        'config' => $this->extractConfig($parents),
-      ];
+      if (!empty($parents)) {
+        $config = [
+          'id' => $look_id,
+          'name' => $parents[$look_id]->getName(),
+          'config' => $this->extractConfig($parents),
+        ];
 
-      $tags = [];
-      /** @var \Drupal\look\Entity\Look $look */
-      foreach ($parents as $look) {
-        $tags[] = 'look:' . $look->id();
+        $tags = [];
+        /** @var \Drupal\look\Entity\Look $look */
+        foreach ($parents as $look) {
+          $tags[] = 'look:' . $look->id();
+        }
+        $this->cache->set($cid, $config, Cache::PERMANENT, $tags);
       }
-      $this->cache->set($cid, $config, Cache::PERMANENT, $tags);
     }
 
     return $config;
