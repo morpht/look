@@ -23,6 +23,7 @@ look.settings_theme:
   defaults:
     _form: '\Drupal\look\Form\SettingsForm'
     _title_callback: '\Drupal\look\Form\SettingsForm::getFormTitle'
+    theme: NULL
   requirements:
     _permission: 'administer site configuration'
   options:
