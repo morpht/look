@@ -75,9 +75,9 @@ class LookSwitcherTest extends UnitTestCase {
     $this->request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
       ->disableOriginalConstructor()
       ->getMock();
-    $this->select = $this->getMock('Drupal\Core\Database\Query\SelectInterface');
-    $this->statement = $this->getMock('Drupal\Core\Database\StatementInterface');
-    $this->pathValidator = $this->getMock('Drupal\Core\Path\PathValidatorInterface');
+    $this->select = $this->createMock('Drupal\Core\Database\Query\SelectInterface');
+    $this->statement = $this->createMock('Drupal\Core\Database\StatementInterface');
+    $this->pathValidator = $this->createMock('Drupal\Core\Path\PathValidatorInterface');
 
     $this->container = new ContainerBuilder();
     $this->container->set('path.validator', $this->pathValidator);

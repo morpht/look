@@ -7,6 +7,7 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\look\Entity\LookInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -40,11 +41,14 @@ class LookRevisionRevertTranslationForm extends LookRevisionRevertForm {
    *   The date formatter service.
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
    */
-  public function __construct(EntityStorageInterface $entity_storage, DateFormatterInterface $date_formatter, TimeInterface $time, LanguageManagerInterface $language_manager) {
-    parent::__construct($entity_storage, $date_formatter, $time);
+  public function __construct(EntityStorageInterface $entity_storage, DateFormatterInterface $date_formatter, TimeInterface $time, MessengerInterface $messenger, LanguageManagerInterface $language_manager) {
+    parent::__construct($entity_storage, $date_formatter, $time, $messenger);
+
     $this->languageManager = $language_manager;
   }
 
@@ -55,8 +59,9 @@ class LookRevisionRevertTranslationForm extends LookRevisionRevertForm {
     return new static(
       $container->get('entity.manager')->getStorage('look'),
       $container->get('date.formatter'),
-      $container->get('language_manager'),
-      $container->get('datetime.time')
+      $container->get('datetime.time'),
+      $container->get('messenger'),
+      $container->get('language_manager')
     );
   }
 
@@ -100,7 +105,7 @@ class LookRevisionRevertTranslationForm extends LookRevisionRevertForm {
     $revert_untranslated_fields = $form_state->getValue('revert_untranslated_fields');
 
     /** @var \Drupal\look\Entity\LookInterface $default_revision */
-    $latest_revision = $this->LookStorage->load($revision->id());
+    $latest_revision = $this->lookStorage->load($revision->id());
     $latest_revision_translation = $latest_revision->getTranslation($this->langcode);
 
     $revision_translation = $revision->getTranslation($this->langcode);

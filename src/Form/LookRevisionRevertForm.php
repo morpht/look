@@ -7,6 +7,7 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 use Drupal\look\Entity\LookInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -30,7 +31,7 @@ class LookRevisionRevertForm extends ConfirmFormBase {
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $LookStorage;
+  protected $lookStorage;
 
   /**
    * The date formatter service.
@@ -47,6 +48,13 @@ class LookRevisionRevertForm extends ConfirmFormBase {
   protected $time;
 
   /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * Constructs a new LookRevisionRevertForm instance.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
@@ -55,11 +63,14 @@ class LookRevisionRevertForm extends ConfirmFormBase {
    *   The date formatter service.
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    */
-  public function __construct(EntityStorageInterface $entity_storage, DateFormatterInterface $date_formatter, TimeInterface $time) {
-    $this->LookStorage = $entity_storage;
+  public function __construct(EntityStorageInterface $entity_storage, DateFormatterInterface $date_formatter, TimeInterface $time, MessengerInterface $messenger) {
+    $this->lookStorage = $entity_storage;
     $this->dateFormatter = $date_formatter;
     $this->time = $time;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -69,7 +80,8 @@ class LookRevisionRevertForm extends ConfirmFormBase {
     return new static(
       $container->get('entity.manager')->getStorage('look'),
       $container->get('date.formatter'),
-      $container->get('datetime.time')
+      $container->get('datetime.time'),
+      $container->get('messenger')
     );
   }
 
@@ -112,7 +124,7 @@ class LookRevisionRevertForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $look_revision = NULL) {
-    $this->revision = $this->LookStorage->loadRevision($look_revision);
+    $this->revision = $this->lookStorage->loadRevision($look_revision);
     $form = parent::buildForm($form, $form_state);
 
     return $form;
@@ -135,7 +147,7 @@ class LookRevisionRevertForm extends ConfirmFormBase {
         '%title' => $this->revision->label(),
         '%revision' => $this->revision->getRevisionId(),
       ]);
-    drupal_set_message(t('Look %title has been reverted to the revision from %revision-date.', [
+    $this->messenger->addMessage(t('Look %title has been reverted to the revision from %revision-date.', [
       '%title' => $this->revision->label(),
       '%revision-date' => $this->dateFormatter->format($original_revision_timestamp),
     ]));

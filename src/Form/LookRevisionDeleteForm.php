@@ -7,6 +7,7 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -29,7 +30,7 @@ class LookRevisionDeleteForm extends ConfirmFormBase {
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $LookStorage;
+  protected $lookStorage;
 
   /**
    * The database connection.
@@ -46,6 +47,13 @@ class LookRevisionDeleteForm extends ConfirmFormBase {
   protected $dateFormatter;
 
   /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * Constructs a new LookRevisionDeleteForm instance.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
@@ -54,11 +62,14 @@ class LookRevisionDeleteForm extends ConfirmFormBase {
    *   The database connection.
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date formatter service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    */
-  public function __construct(EntityStorageInterface $entity_storage, Connection $connection, DateFormatterInterface $date_formatter) {
-    $this->LookStorage = $entity_storage;
+  public function __construct(EntityStorageInterface $entity_storage, Connection $connection, DateFormatterInterface $date_formatter, MessengerInterface $messenger) {
+    $this->lookStorage = $entity_storage;
     $this->connection = $connection;
     $this->dateFormatter = $date_formatter;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -69,7 +80,8 @@ class LookRevisionDeleteForm extends ConfirmFormBase {
     return new static(
       $entity_manager->getStorage('look'),
       $container->get('database'),
-      $container->get('date.formatter')
+      $container->get('date.formatter'),
+      $container->get('messenger')
     );
   }
 
@@ -107,7 +119,7 @@ class LookRevisionDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $look_revision = NULL) {
-    $this->revision = $this->LookStorage->loadRevision($look_revision);
+    $this->revision = $this->lookStorage->loadRevision($look_revision);
     $form = parent::buildForm($form, $form_state);
 
     return $form;
@@ -117,14 +129,14 @@ class LookRevisionDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->LookStorage->deleteRevision($this->revision->getRevisionId());
+    $this->lookStorage->deleteRevision($this->revision->getRevisionId());
 
     $this->logger('content')
       ->notice('Look: deleted %title revision %revision.', [
         '%title' => $this->revision->label(),
         '%revision' => $this->revision->getRevisionId(),
       ]);
-    drupal_set_message(t('Revision from %revision-date of Look %title has been deleted.', [
+    $this->messenger->addMessage(t('Revision from %revision-date of Look %title has been deleted.', [
       '%revision-date' => $this->dateFormatter->format($this->revision->getRevisionCreationTime()),
       '%title' => $this->revision->label(),
     ]));
