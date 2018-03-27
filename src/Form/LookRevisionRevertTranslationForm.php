@@ -32,7 +32,7 @@ class LookRevisionRevertTranslationForm extends LookRevisionRevertForm {
   protected $languageManager;
 
   /**
-   * Constructs a new LookRevisionRevertTranslationForm.
+   * Constructs a new LookRevisionRevertTranslationForm instance.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
    *   The Look storage.

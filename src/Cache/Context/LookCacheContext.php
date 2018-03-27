@@ -22,7 +22,7 @@ class LookCacheContext implements CacheContextInterface {
   protected $lookConfig;
 
   /**
-   * Constructs a new look cache context service.
+   * Constructs a new LookCacheContext instance.
    *
    * @param \Drupal\look\LookConfig $look_config
    *   The look config service.

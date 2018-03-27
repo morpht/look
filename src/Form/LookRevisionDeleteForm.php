@@ -46,7 +46,7 @@ class LookRevisionDeleteForm extends ConfirmFormBase {
   protected $dateFormatter;
 
   /**
-   * Constructs a new LookRevisionDeleteForm.
+   * Constructs a new LookRevisionDeleteForm instance.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
    *   The entity storage.

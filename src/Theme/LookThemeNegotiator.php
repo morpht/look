@@ -19,7 +19,7 @@ class LookThemeNegotiator implements ThemeNegotiatorInterface {
   protected $lookConfig;
 
   /**
-   * Constructs a new look theme negotiator service.
+   * Constructs a new LookThemeNegotiator instance.
    *
    * @param \Drupal\look\LookConfig $look_config
    *   The look config service.

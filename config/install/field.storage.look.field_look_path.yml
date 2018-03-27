@@ -2,7 +2,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - taxonomy
+    - look
 id: look.field_look_path
 field_name: field_look_path
 entity_type: look

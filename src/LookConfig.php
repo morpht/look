@@ -86,7 +86,7 @@ class LookConfig {
   protected $modifiers;
 
   /**
-   * Constructs a new look config service.
+   * Constructs a new LookConfig instance.
    *
    * @param \Drupal\Core\Database\Connection $connection
    *   The database connection service.

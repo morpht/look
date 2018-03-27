@@ -47,7 +47,7 @@ class LookRevisionRevertForm extends ConfirmFormBase {
   protected $time;
 
   /**
-   * Constructs a new LookRevisionRevertForm.
+   * Constructs a new LookRevisionRevertForm instance.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
    *   The Look storage.

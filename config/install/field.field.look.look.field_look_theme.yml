@@ -3,6 +3,8 @@ status: true
 dependencies:
   config:
     - field.storage.look.field_look_theme
+  module:
+    - look
 id: look.look.field_look_theme
 field_name: field_look_theme
 entity_type: look

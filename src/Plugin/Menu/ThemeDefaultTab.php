@@ -21,7 +21,7 @@ class ThemeDefaultTab extends LocalTaskDefault implements ContainerFactoryPlugin
   protected $themeHandler;
 
   /**
-   * Constructs a new ThemeLocalTask instance.
+   * Constructs a new ThemeDefaultTab instance.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
