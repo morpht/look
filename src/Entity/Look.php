@@ -31,13 +31,14 @@ use Drupal\user\UserInterface;
  *     },
  *     "access" = "Drupal\look\LookAccessControlHandler",
  *     "route_provider" = {
- *       "html" = "Drupal\look\LookHtmlRouteProvider",
+ *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
  *     },
  *   },
  *   base_table = "look",
  *   data_table = "look_field_data",
  *   revision_table = "look_revision",
  *   revision_data_table = "look_field_revision",
+ *   show_revision_ui = TRUE,
  *   translatable = TRUE,
  *   admin_permission = "administer look entities",
  *   entity_keys = {
@@ -56,9 +57,6 @@ use Drupal\user\UserInterface;
  *     "delete-form" = "/admin/structure/look/{look}/delete",
  *     "version-history" = "/admin/structure/look/{look}/revisions",
  *     "revision" = "/admin/structure/look/{look}/revisions/{look_revision}/view",
- *     "revision_revert" = "/admin/structure/look/{look}/revisions/{look_revision}/revert",
- *     "translation_revert" = "/admin/structure/look/{look}/revisions/{look_revision}/revert/{langcode}",
- *     "revision_delete" = "/admin/structure/look/{look}/revisions/{look_revision}/delete",
  *     "collection" = "/admin/structure/look",
  *   },
  *   field_ui_base_route = "entity.look.collection"

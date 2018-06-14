@@ -196,12 +196,12 @@ class LookController extends ControllerBase implements ContainerInjectionInterfa
             $links['revert'] = [
               'title' => $this->t('Revert'),
               'url' => $has_translations ?
-              Url::fromRoute('entity.look.translation_revert', [
+              Url::fromRoute('entity.look.revision_revert_translation_confirm', [
                 'look' => $look->id(),
                 'look_revision' => $vid,
                 'langcode' => $langcode,
               ]) :
-              Url::fromRoute('entity.look.revision_revert', [
+              Url::fromRoute('entity.look.revision_revert_confirm', [
                 'look' => $look->id(),
                 'look_revision' => $vid,
               ]),
@@ -211,7 +211,7 @@ class LookController extends ControllerBase implements ContainerInjectionInterfa
           if ($delete_permission) {
             $links['delete'] = [
               'title' => $this->t('Delete'),
-              'url' => Url::fromRoute('entity.look.revision_delete', [
+              'url' => Url::fromRoute('entity.look.revision_delete_confirm', [
                 'look' => $look->id(),
                 'look_revision' => $vid,
               ]),
