@@ -7,7 +7,6 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 use Drupal\look\Entity\LookInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -48,13 +47,6 @@ class LookRevisionRevertForm extends ConfirmFormBase {
   protected $time;
 
   /**
-   * The messenger service.
-   *
-   * @var \Drupal\Core\Messenger\MessengerInterface
-   */
-  protected $messenger;
-
-  /**
    * Constructs a new LookRevisionRevertForm instance.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
@@ -63,14 +55,11 @@ class LookRevisionRevertForm extends ConfirmFormBase {
    *   The date formatter service.
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
    */
-  public function __construct(EntityStorageInterface $entity_storage, DateFormatterInterface $date_formatter, TimeInterface $time, MessengerInterface $messenger) {
+  public function __construct(EntityStorageInterface $entity_storage, DateFormatterInterface $date_formatter, TimeInterface $time) {
     $this->lookStorage = $entity_storage;
     $this->dateFormatter = $date_formatter;
     $this->time = $time;
-    $this->messenger = $messenger;
   }
 
   /**
@@ -80,8 +69,7 @@ class LookRevisionRevertForm extends ConfirmFormBase {
     return new static(
       $container->get('entity.manager')->getStorage('look'),
       $container->get('date.formatter'),
-      $container->get('datetime.time'),
-      $container->get('messenger')
+      $container->get('datetime.time')
     );
   }
 
@@ -147,7 +135,7 @@ class LookRevisionRevertForm extends ConfirmFormBase {
         '%title' => $this->revision->label(),
         '%revision' => $this->revision->getRevisionId(),
       ]);
-    $this->messenger->addMessage(t('Look %title has been reverted to the revision from %revision-date.', [
+    drupal_set_message(t('Look %title has been reverted to the revision from %revision-date.', [
       '%title' => $this->revision->label(),
       '%revision-date' => $this->dateFormatter->format($original_revision_timestamp),
     ]));

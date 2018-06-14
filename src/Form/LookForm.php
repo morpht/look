@@ -2,13 +2,8 @@
 
 namespace Drupal\look\Form;
 
-use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Entity\ContentEntityForm;
-use Drupal\Core\Entity\EntityManagerInterface;
-use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Form controller for Look edit forms.
@@ -16,43 +11,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @ingroup look
  */
 class LookForm extends ContentEntityForm {
-
-  /**
-   * The messenger service.
-   *
-   * @var \Drupal\Core\Messenger\MessengerInterface
-   */
-  protected $messenger;
-
-  /**
-   * Constructs a new LookForm instance.
-   *
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
-   *   The entity manager.
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
-   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
-   *   The entity type bundle service.
-   * @param \Drupal\Component\Datetime\TimeInterface $time
-   *   The time service.
-   */
-  public function __construct(EntityManagerInterface $entity_manager, MessengerInterface $messenger, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, TimeInterface $time = NULL) {
-    parent::__construct($entity_manager, $entity_type_bundle_info, $time);
-
-    $this->messenger = $messenger;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('entity.manager'),
-      $container->get('messenger'),
-      $container->get('entity_type.bundle.info'),
-      $container->get('datetime.time')
-    );
-  }
 
   /**
    * {@inheritdoc}
@@ -97,13 +55,13 @@ class LookForm extends ContentEntityForm {
 
     switch ($status) {
       case SAVED_NEW:
-        $this->messenger->addMessage($this->t('Created the %label Look.', [
+        drupal_set_message($this->t('Created the %label Look.', [
           '%label' => $entity->label(),
         ]));
         break;
 
       default:
-        $this->messenger->addMessage($this->t('Saved the %label Look.', [
+        drupal_set_message($this->t('Saved the %label Look.', [
           '%label' => $entity->label(),
         ]));
     }
