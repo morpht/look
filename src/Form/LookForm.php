@@ -21,12 +21,12 @@ class LookForm extends ContentEntityForm {
     $entity->save();
 
     if ($insert) {
-      drupal_set_message($this->t('Created the %label Look.', [
+      $this->messenger()->addStatus($this->t('Created the %label Look.', [
         '%label' => $entity->label(),
       ]));
     }
     else {
-      drupal_set_message($this->t('Saved the %label Look.', [
+      $this->messenger()->addStatus($this->t('Saved the %label Look.', [
         '%label' => $entity->label(),
       ]));
     }

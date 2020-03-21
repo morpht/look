@@ -157,7 +157,7 @@ class LookController extends ControllerBase implements ContainerInjectionInterfa
           ])->toString();
         }
         else {
-          $link = $look->link($date);
+          $link = $look->toLink($date)->toString();
         }
 
         $row = [];

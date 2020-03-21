@@ -135,7 +135,7 @@ class LookRevisionRevertForm extends ConfirmFormBase {
         '%title' => $this->revision->label(),
         '%revision' => $this->revision->getRevisionId(),
       ]);
-    drupal_set_message(t('Look %title has been reverted to the revision from %revision-date.', [
+    $this->messenger()->addStatus(t('Look %title has been reverted to the revision from %revision-date.', [
       '%title' => $this->revision->label(),
       '%revision-date' => $this->dateFormatter->format($original_revision_timestamp),
     ]));
