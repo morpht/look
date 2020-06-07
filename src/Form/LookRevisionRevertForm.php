@@ -67,7 +67,7 @@ class LookRevisionRevertForm extends ConfirmFormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager')->getStorage('look'),
+      $container->get('entity_type.manager')->getStorage('look'),
       $container->get('date.formatter'),
       $container->get('datetime.time')
     );
