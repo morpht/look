@@ -1,8 +1,7 @@
 name: Look
 type: module
 description: Provides Look entity management for usage with Modifiers.
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10
 package: User interface
 configure: look.settings
 dependencies:
