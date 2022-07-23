@@ -31,50 +31,46 @@ class LookSwitcherTest extends UnitTestCase {
   /**
    * The mocked database connection.
    *
-   * @var \Drupal\Core\Database\Connection|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\Core\Database\Connection|\PHPUnit\Framework\MockObject\MockObject
    */
   protected $connection;
 
   /**
    * The mocked current request.
    *
-   * @var \Symfony\Component\HttpFoundation\Request|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Symfony\Component\HttpFoundation\Request|\PHPUnit\Framework\MockObject\MockObject
    */
   protected $request;
 
   /**
    * The mocked select query.
    *
-   * @var \Drupal\Core\Database\Query\SelectInterface|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\Core\Database\Query\SelectInterface|\PHPUnit\Framework\MockObject\MockObject
    */
   protected $select;
 
   /**
    * The mocked current request.
    *
-   * @var \Symfony\Component\HttpFoundation\Request|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Symfony\Component\HttpFoundation\Request|\PHPUnit\Framework\MockObject\MockObject
    */
   protected $statement;
 
   /**
    * The mocked path validator.
    *
-   * @var \Drupal\Core\Path\PathValidatorInterface|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\Core\Path\PathValidatorInterface|\PHPUnit\Framework\MockObject\MockObject
    */
   protected $pathValidator;
 
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
-    $this->connection = $this->getMockBuilder('Drupal\Core\Database\Connection')
-      ->disableOriginalConstructor()
-      ->getMock();
-    $this->request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-      ->disableOriginalConstructor()
-      ->getMock();
+    $this->connection = $this->createMock('Drupal\Core\Database\Connection');
+    $this->request = $this->createMock('Symfony\Component\HttpFoundation\Request');
     $this->select = $this->createMock('Drupal\Core\Database\Query\SelectInterface');
     $this->statement = $this->createMock('Drupal\Core\Database\StatementInterface');
     $this->pathValidator = $this->createMock('Drupal\Core\Path\PathValidatorInterface');
